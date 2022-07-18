@@ -1,0 +1,6 @@
+Morning : Check the body paramter, we need to send the correct date and time to fetch the location.
+Also, how is the location calcuatled? Is there are reqeust for it?
+Looks like the time is GMT. Need to pass that.
+Check if this is correct?
+
+
