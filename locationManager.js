@@ -3,63 +3,6 @@ var poi = require("./pointsOfInterest.json")
 var fakeJSON = require("./mock_bus_locations.json")
 var pointsOfInterest = require("./pointsOfInterest.json")
 
-/*
-    // pending, inprogress, arrived.
-const locSansar = {
-    name: "Sansar",
-    la: 12.967538632157412,
-    lo: 77.71408096545004,
-    status: "arrived"
-};
-const locGopalan = {
-    name: "Gopalan",
-    la: 12.967713847714254,
-    lo: 77.710898,
-    status: "arrived"
-    };
-const locHanumanTemple = {
-    name: "Hanuman Temple",
-    la: 12.971884,
-    lo: 77.71184554809889,
-    status: "inProgress",
-};
-const locAkmeEncore = {
-    name: "Akme Encore",
-    la: 12.972023,
-    lo: 77.713419,
-    status: "pending",
-};
-const locSJRbrooklyn = {
-    name: "SJR Brooklyn",
-    la: 12.97171564160796,
-    lo: 77.71203399299321,
-    status: "pending",
-};
-const locSherlocksPub = {
-    name: "Sherlocks Pub",
-    la: 12.97091981448039,
-    lo: 77.71233234169756,
-    status: "pending",
-};
-const locSterlingShalom = {
-    name: "Sterling Shalom",
-    la: 12.970926,
-    lo: 77.71441868316718,
-    status: "pending",
-};
-
-let pointsOfInterest = [
-    locSansar,
-    locGopalan,
-    locHanumanTemple,
-    locAkmeEncore,
-    locSJRbrooklyn,
-    locSherlocksPub,
-    locSterlingShalom,
-];
-*/
-
-
 async function stall(stallTime = 3000) {
     await new Promise(resolve => setTimeout(resolve, stallTime));
 }
@@ -70,12 +13,7 @@ const fakeBusDataProvider = async (currentDate) => {
 } 
 
 const axiosFetchData = async (currentDate) => {
-    //var data = 'iEtTPee=2022-07-18+02%3A35%3A37';
-    //var data = "iEtTPee=2022-07-18+02%3A01%3A16";
-    //var data = "iEtTPee=" + currentDate + "+02%3A01%3A16";
-    //2022-07-19+02:36:19
     var data = "iEtTPee=" + currentDate + "+02%3A20%3A16";
-    //var data = "iEtTPee=" + currentDate 
     console.log("Axios : Date : ", data);
 
     var config = {
@@ -145,7 +83,6 @@ const isBusInRangeof = (busLoc, targetLocation, tolerance = 0.1) => {
 const fetchLatestBusLocation = async (currentDate) => {
     try {
         //let busLocationData = await axiosFetchData(currentDate);
-
         let busLocationData = await fakeBusDataProvider();
 
         if (busLocationData === undefined) {

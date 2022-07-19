@@ -1,8 +1,8 @@
 
 // When running on raspi - uncomment the lines below. & remove runmode = ''
-const runmode = "";
-//const runmode = "raspi"
-//var ws281x = require('rpi-ws281x');
+//const runmode = "";
+const runmode = "raspi"
+var ws281x = require('rpi-ws281x');
 
 const greenColor = "0X00FF00";
 const blueColor = "0X0000FF";
