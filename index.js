@@ -39,5 +39,4 @@ const updateBusLocation = async () => {
     console.log('One fetch cycle completed');
 };
 
-setInterval(updateBusLocation, 3000)
-//setInterval(pixelManager.blink, 1000)
+setInterval(updateBusLocation, 7000)

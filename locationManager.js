@@ -5,7 +5,7 @@ const locSansar = {
     name: "Sansar",
     la: 12.967538632157412,
     lo: 77.71408096545004,
-    status: "pending",
+    status: "inProgress",
 };
 const locGopalan = {
     name: "Gopalan",
@@ -56,11 +56,12 @@ let pointsOfInterest = [
 
 const axiosFetchData = async (currentDate) => {
     //var data = 'iEtTPee=2022-07-18+02%3A35%3A37';
-    var data = "iEtTPee=2022-07-18+02%3A01%3A16";
-    var data = "iEtTPee=" + currentDate + "+02%3A01%3A16";
-    //var data = 'iEtTPee=2022-07-18';
+    //var data = "iEtTPee=2022-07-18+02%3A01%3A16";
+    //var data = "iEtTPee=" + currentDate + "+02%3A01%3A16";
+    //2022-07-19+02:36:19
+    var data = "iEtTPee=" + currentDate + "+02%3A20%3A16";
+    //var data = "iEtTPee=" + currentDate 
     console.log("Axios : Date : ", data);
-    //2022-07-18+02%3A01%3A16
 
     var config = {
         method: "post",
@@ -192,10 +193,15 @@ const updateTrackingStatus = (busLoc) => {
     ) {
         console.log("We are in range of POI : ", locInProgress[0].name);
         // Change status to Arrived.
-        for (var eachLoc of locInProgress) {
-            if (eachLoc.status === "inProgress") {
-                eachLoc.status = "arrived";
+        for (let i = 0; i < locInProgress.length; i++) {
+            if (locInProgress[i].status === "inProgress") {
+                locInProgress[i].status = "arrived";
+                if (i < locInProgress.length) {
+                    locInProgress[i + 1].status = "inProgress"
+                }
+                break;
             }
+        
         }
     }
 };
