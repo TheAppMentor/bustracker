@@ -5,19 +5,19 @@ const locSansar = {
     name: "Sansar",
     la: 12.967538632157412,
     lo: 77.71408096545004,
-    status: "inProgress",
+    status: "arrived",
 };
 const locGopalan = {
     name: "Gopalan",
     la: 12.967713847714254,
     lo: 77.710898,
-    status: "pending",
-};
+    status: "arrived"
+    };
 const locHanumanTemple = {
     name: "Hanuman Temple",
     la: 12.971884,
     lo: 77.71184554809889,
-    status: "pending",
+    status: "inProgress",
 };
 const locAkmeEncore = {
     name: "Akme Encore",
