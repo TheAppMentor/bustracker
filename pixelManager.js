@@ -1,8 +1,8 @@
 
 // When running on raspi - uncomment the lines below. & remove runmode = ''
-//const runmode = "";
-const runmode = "raspi"
-var ws281x = require('rpi-ws281x');
+const runmode = "";
+//const runmode = "raspi"
+//var ws281x = require('rpi-ws281x');
 
 const greenColor = "0X00FF00";
 const blueColor = "0X0000FF";
@@ -47,29 +47,27 @@ exports.blink = (leds, grbColor, duration = 300) => {
 };
 
 exports.lightupPixels = (uiStateArr) => {
-    // Create a pixel array matching the number of leds.
-    // This must be an instance of Uint32Array.
-    var pixels = new Uint32Array(ledStripConfig.leds);
-
-    uiStateArr.forEach((pixel,idx) => {
-        pixels[idx] = tealColor;
-        
-        if (pixel === 1) {
-            pixels[idx] = yellowColor;
-        }
-        if (pixel === 2) {
-            pixels[idx] = greenColor;
-        }
-    });
-
-    // On the pi dont return, but call the pixel module and light it up.
     if (runmode === "raspi") {
+
+        var pixels = new Uint32Array(ledStripConfig.leds);
+
+        uiStateArr.forEach((pixel,idx) => {
+            pixels[idx] = tealColor;
+            if (pixel === 1) { pixels[idx] = yellowColor }
+            if (pixel === 2) { pixels[idx] = greenColor }
+        });
+
         clearInterval(refreshIntervalId)
         refreshIntervalId = setInterval(blinkit,1000,pixels)
-        //ws281x.render(pixels);
+
     } else {
-        console.log("We will write this to the strip :", pixelArr);
-        return pixelArr;
+        var pixelArr = uiStateArr.map((pixel) => {
+            let returnVal = "⚪️";
+            if (pixel === 1) { returnVal = "🟡" }
+            if (pixel === 2) { returnVal = "🟢" }
+            return returnVal 
+        }) 
+        console.log("Strip : ", ...pixelArr);
     }
 };
 

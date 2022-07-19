@@ -36,7 +36,8 @@ const updateBusLocation = async () => {
     }
 
     console.timeEnd("Time: Fetching Bus Location")
-    console.log('One fetch cycle completed');
+    console.log('\n\n');
 };
 
-setInterval(updateBusLocation, 7000)
+//TODO: Prashanth change this back to 5s or 7s
+setInterval(updateBusLocation, 200)
