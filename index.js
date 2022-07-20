@@ -29,6 +29,14 @@ const updateBusLocation = async () => {
         let uiStateForBus = await locManager.getBusState(currentDate)
 
         pixelManager.configurePixelManager()
+        
+        if (uiStateForBus.pop() === 2) { // Bus has reached a the last stop. Go to panic mode.
+            clearInterval(refreshIntervalId) // Stop getting Location.
+            pixelState = pixelManager.panicMode()
+            setTimeout(process.exit,5000)
+            return;
+        }
+
         pixelState = pixelManager.lightupPixels(uiStateForBus)
 
     } catch (err) {
@@ -40,4 +48,4 @@ const updateBusLocation = async () => {
 };
 
 //TODO: Prashanth change this back to 5s or 7s
-setInterval(updateBusLocation, 200)
+var refreshIntervalId = setInterval(updateBusLocation, 1000)

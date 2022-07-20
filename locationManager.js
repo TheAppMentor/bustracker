@@ -119,8 +119,6 @@ exports.getBusState = async (currentDate) => {
 };
 
 const updateTrackingStatus = (busLoc) => {
-
-    
     let allArrived = pointsOfInterest.filter( loc => loc.status === 2 );
     if ( allArrived.length === pointsOfInterest.length ) {
        console.log("WE are done Processing all POI") 
