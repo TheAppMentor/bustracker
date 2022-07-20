@@ -32,6 +32,7 @@ const updateBusLocation = async () => {
         if (uiStateForBus.pop() === 2) { // Bus has reached a the last stop. Go to panic mode.
             clearInterval(refreshIntervalId) // Stop getting Location.
             pixelState = pixelManager.panicMode()
+            
             setTimeout(process.exit,30000)
             return;
         }
@@ -47,4 +48,3 @@ const updateBusLocation = async () => {
 };
 
 var refreshIntervalId = setInterval(updateBusLocation, 5000)
-

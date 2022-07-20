@@ -1,8 +1,7 @@
-
 // When running on raspi - uncomment the lines below. & remove runmode = ''
 //const runmode = "";
-const runmode = "raspi"
-var ws281x = require('rpi-ws281x');
+const runmode = "raspi";
+var ws281x = require("rpi-ws281x");
 
 const greenColor = "0X00FF00";
 const blueColor = "0X0000FF";
@@ -28,13 +27,16 @@ const ledStripConfig = {
 // Prash : In this class we just generate the array to be fed to the LED.
 // 'rpi-ws281x' does not work on mac. We can do only that part on the pi.
 
-let configured = false
+let configured = false;
 
 exports.configurePixelManager = () => {
     // Configure ws281x
     if (runmode === "raspi" && configured === false) {
         configured = true;
-        console.log(">>>>>>>>>>>>>>>    We are config the strip:", ledStripConfig);
+        console.log(
+            ">>>>>>>>>>>>>>>    We are config the strip:",
+            ledStripConfig
+        );
         ws281x.configure(ledStripConfig);
     }
 };
@@ -48,47 +50,66 @@ exports.blink = (leds, grbColor, duration = 300) => {
 
 exports.lightupPixels = (uiStateArr) => {
     if (runmode === "raspi") {
-
         var pixels = new Uint32Array(ledStripConfig.leds);
 
-        uiStateArr.forEach((pixel,idx) => {
+        uiStateArr.forEach((pixel, idx) => {
             pixels[idx] = tealColor;
-            if (pixel === 1) { pixels[idx] = yellowColor }
-            if (pixel === 2) { pixels[idx] = greenColor }
+            if (pixel === 1) {
+                pixels[idx] = yellowColor;
+            }
+            if (pixel === 2) {
+                pixels[idx] = greenColor;
+            }
         });
 
-        clearInterval(refreshIntervalId)
-        refreshIntervalId = setInterval(blinkit,500,pixels)
-
+        clearInterval(refreshIntervalId);
+        refreshIntervalId = setInterval(blinkit, 1000, pixels);
     } else {
         var pixelArr = uiStateArr.map((pixel) => {
             let returnVal = "⚪️";
-            if (pixel === 1) { returnVal = "🟡" }
-            if (pixel === 2) { returnVal = "🟢" }
-            return returnVal 
-        }) 
+            if (pixel === 1) {
+                returnVal = "🟡";
+            }
+            if (pixel === 2) {
+                returnVal = "🟢";
+            }
+            return returnVal;
+        });
         console.log("Strip : ", ...pixelArr);
     }
 };
 
-let blinkOn = false
-var refreshIntervalId 
+let blinkOn = false;
+var refreshIntervalId;
+
 const blinkit = (pixels) => {
     var blinkPixels = new Uint32Array(ledStripConfig.leds);
 
-    pixels.forEach((pixel,idx) => {
+    pixels.forEach((pixel, idx) => {
         blinkPixels[idx] = pixel;
-    
+
         if (pixel === 16776960 || pixel === 0) {
             if (blinkOn === true) {
                 blinkPixels[idx] = "0X000000";
-                blinkOn = false 
+                blinkOn = false;
             } else {
                 blinkPixels[idx] = yellowColor;
-                blinkOn = true
-            } 
+                blinkOn = true;
+            }
         }
-    })
+    });
+
+    ws281x.render(blinkPixels);
+};
+
+exports.panicMode = () => {
+    console.log(">>>>>>>> PANIC MODE <<<<<<<<<<<<< ") 
+    clearInterval(refreshIntervalId); // Clear any previous timers.
+    var blinkPixels = new Uint32Array(ledStripConfig.leds);
+
+    binkPixels.forEach((pixel) => {
+        blinkPixels[idx] = redColor;
+    });
     
     ws281x.render(blinkPixels);
 }
