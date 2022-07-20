@@ -58,7 +58,7 @@ exports.lightupPixels = (uiStateArr) => {
         });
 
         clearInterval(refreshIntervalId)
-        refreshIntervalId = setInterval(blinkit,1000,pixels)
+        refreshIntervalId = setInterval(blinkit,500,pixels)
 
     } else {
         var pixelArr = uiStateArr.map((pixel) => {
@@ -91,4 +91,29 @@ const blinkit = (pixels) => {
     })
     
     ws281x.render(blinkPixels);
+}
+
+exports.panicMode = () => {
+    setInterval(blinkPanicMode,250)
+}
+
+var panicBlinkOn = false;
+const blinkPanicMode = () => {
+    clearInterval(refreshIntervalId); // Clear any previous timers.
+    var blinkPixels = new Uint32Array(ledStripConfig.leds);
+
+    if (panicBlinkOn === true) {
+        blinkPixels.forEach((pixel,idx) => {
+            blinkPixels[idx] = redColor;
+        });
+        panicBlinkOn = false 
+    } else {
+        panicBlinkOn = true 
+    }
+
+    ws281x.render(blinkPixels);
+};
+
+exports.panicMode = () => {
+    setInterval(blinkPanicMode,250)
 }

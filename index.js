@@ -19,16 +19,23 @@ const setupDate = () => {
     currentDate = dateStr 
 } 
 
-// Call start
 const updateBusLocation = async () => {
     try {
         console.time("Time: Fetching Bus Location")
-        console.log('Fetching bus Location');
         setupDate()
 
         let uiStateForBus = await locManager.getBusState(currentDate)
-
+        
+        //TODO: Do this once before udpating location
         pixelManager.configurePixelManager()
+        
+        if (uiStateForBus.pop() === 2) { // Bus has reached a the last stop. Go to panic mode.
+            clearInterval(refreshIntervalId) // Stop getting Location.
+            pixelState = pixelManager.panicMode()
+            setTimeout(process.exit,30000)
+            return;
+        }
+
         pixelState = pixelManager.lightupPixels(uiStateForBus)
 
     } catch (err) {
@@ -39,5 +46,5 @@ const updateBusLocation = async () => {
     console.log('\n\n');
 };
 
-//TODO: Prashanth change this back to 5s or 7s
-setInterval(updateBusLocation, 200)
+var refreshIntervalId = setInterval(updateBusLocation, 5000)
+

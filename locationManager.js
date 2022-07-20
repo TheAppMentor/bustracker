@@ -13,7 +13,7 @@ const fakeBusDataProvider = async (currentDate) => {
 } 
 
 const axiosFetchData = async (currentDate) => {
-    var data = "iEtTPee=" + currentDate + "+02%3A20%3A16";
+    var data = "iEtTPee=" + currentDate + "+01%3A20%3A16";
     console.log("Axios : Date : ", data);
 
     var config = {
@@ -72,23 +72,24 @@ const distance = ({ la: x1, lo: y1 }, { la: x2, lo: y2 }) => {
 };
 
 // Check if bus is with in 100 mts of target
-const isBusInRangeof = (busLoc, targetLocation, tolerance = 0.1) => {
+const isBusInRangeof = (busLoc, targetLocation, tolerance = 0.05) => {
     let dist = distance({ la: busLoc.la, lo: busLoc.lo }, targetLocation);
     if ( dist < tolerance ) {
-        console.log("busLoc : `${busLoc}` Taget : `${targetLocation}`")
+        console.log(`busLoc : ${busLoc} Target : ${targetLocation}`)
     } 
     return dist < tolerance
 };
 
 const fetchLatestBusLocation = async (currentDate) => {
     try {
-        //let busLocationData = await axiosFetchData(currentDate);
-        let busLocationData = await fakeBusDataProvider();
+        let busLocationData = await axiosFetchData(currentDate);
+        //let busLocationData = await fakeBusDataProvider();
 
-        if (busLocationData === undefined) {
-            console.log(">>>>>>>>>>>>>>>>>   Exit <<<<<<<<<<<<<<<<<<<") 
-            process.exit() 
-        }
+       // if (busLocationData === undefined) {
+       //     console.log(">>>>>>>>>>>>>>>>>   Exit <<<<<<<<<<<<<<<<<<<") 
+       //     process.exit() 
+       // }
+        
         if (busLocationData.status.toUpperCase() === "OK") {
             let locations = busLocationData.data[0].locations;
 
